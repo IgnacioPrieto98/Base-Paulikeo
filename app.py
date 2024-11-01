@@ -1,7 +1,9 @@
 import mysql.connector
 from datetime import datetime, timedelta
+import os
+import sys
 
-# Conexión a la base de datos
+# Mysql
 def conectar():
     return mysql.connector.connect(
         host='localhost',
@@ -10,28 +12,19 @@ def conectar():
         database='Gestor'
     )
 
-# Funciones de Socios
+# region (SOCIOS)
+
+# Socios
 def crear_socio(nombre, apellido, dni, telefono, email):
     conexion = conectar()
     cursor = conexion.cursor()
     sql = "INSERT INTO Socios (Nombre, Apellido, DNI, Telefono, Email) VALUES (%s, %s, %s, %s, %s)"
     cursor.execute(sql, (nombre, apellido, dni, telefono, email))
 
-    print("/n Comprobando datos /n")
-
-    if control_errores (nombre, apellido, dni, telefono, email):
-        conexion.commit()
+    conexion.commit()
 
     cursor.close()
     conexion.close()
-
-def control_errores (nombre, apellido, dni, telefono, email):
-    if isinstance(nombre, str) and nombre.isalpha() ==0 :
-        print("El nombre ingresado NO es válido")
-    elif len(dni) != 8 or not dni.isdigit():
-        print("El DNI debe ser un número de 8 dígitos.")
-    else :
-        return True
     
 def actualizar_socio(id_socio, nombre, apellido, dni, telefono, email):
     conexion = conectar()
@@ -64,7 +57,11 @@ def listar_socios():
     cursor.close()
     conexion.close()
 
-# Funciones de Géneros
+# endregion 
+
+# region (GENERO)
+
+# Géneros
 def agregar_genero(nombre):
     conexion = conectar()
     cursor = conexion.cursor()
@@ -96,12 +93,15 @@ def listar_generos():
     conexion = conectar()
     cursor = conexion.cursor()
     cursor.execute("SELECT * FROM Generos")
-    for (id_genero, nombre) in cursor.fetchall():
+    for (nombre, id_genero) in cursor.fetchall():
         print(f"ID: {id_genero}, Género: {nombre}")
     cursor.close()
     conexion.close()
 
-# Funciones de Libros
+# endregion
+
+# region (LIBROS)
+# Libros
 def agregar_libro(nombre_libro, autor, fecha_lanzamiento, id_genero):
     conexion = conectar()
     cursor = conexion.cursor()
@@ -133,21 +133,29 @@ def listar_libros():
     conexion = conectar()
     cursor = conexion.cursor()
     cursor.execute("SELECT * FROM Libros WHERE Estado = 1")
-    for (id_libro, nombre_libro, autor, fecha_lanzamiento, creado_el, actualizado_el, estado, id_genero) in cursor.fetchall():
+    for (nombre_libro, id_libro, autor, fecha_lanzamiento, creado_el, actualizado_el, estado, id_genero, Disponibilidad) in cursor.fetchall():
         print(f"ID: {id_libro}, Título: {nombre_libro}, Autor: {autor}, Fecha de Lanzamiento: {fecha_lanzamiento}, Género ID: {id_genero}, Estado: {'Activo' if estado == 1 else 'Inactivo'}")
     cursor.close()
     conexion.close()
 
-# Funciones de Préstamos
+#endregion
+
+# region (PRESTAMOS)
+
+# Préstamos
 def crear_prestamo(id_libro, id_socio):
     conexion = conectar()
     cursor = conexion.cursor()
     
     fecha_prestamo = datetime.now().date()
-    fecha_devolucion = fecha_prestamo + timedelta(days=7)
+    fecha_devolucion_estimada = fecha_prestamo + timedelta(days=7)
     
-    sql = "INSERT INTO Prestamos (Fecha_Prestamo, Fecha_Devolucion, ID_Libro, ID_Socio) VALUES (%s, %s, %s, %s)"
-    cursor.execute(sql, (fecha_prestamo, fecha_devolucion, id_libro, id_socio))
+    sql = "INSERT INTO Prestamos (Fecha_Prestamo, fecha_devolucion_estimada, ID_Libro, ID_Socio) VALUES (%s, %s, %s, %s)"
+    cursor.execute(sql, (fecha_prestamo, fecha_devolucion_estimada, id_libro, id_socio))
+
+    sql2 = "UPDATE Libros SET Disponibilidad = 0 WHERE ID_Libro = %s"
+    cursor.execute(sql2, (id_libro,))
+
     conexion.commit()
     cursor.close()
     conexion.close()
@@ -157,117 +165,358 @@ def listar_prestamos():
     conexion = conectar()
     cursor = conexion.cursor()
     cursor.execute("SELECT * FROM Prestamos")
-    for (fecha_prestamo, fecha_devolucion, id_libro, id_socio) in cursor.fetchall():
-        print(f"Fecha de Préstamo: {fecha_prestamo}, Fecha de Devolución: {fecha_devolucion}, ID Libro: {id_libro}, ID Socio: {id_socio}")
+    for (fecha_prestamo, fecha_devolucion_estimada,fecha_devolucion_real, id_libro, id_socio, id_prestamo) in cursor.fetchall():
+        print(f"Fecha de Préstamo: {fecha_prestamo}, Fecha de Devolución Estimada: {fecha_devolucion_estimada}, ID Libro: {id_libro}, ID Socio: {id_socio}")
     cursor.close()
     conexion.close()
 
-# Función para verificar si se puede prestar
+# Si se puede prestar
 def puede_prestar(id_socio, id_libro):
     conexion = conectar()
     cursor = conexion.cursor()
     
-    # Verificar el estado del socio
+    # Estado del socio
     cursor.execute("SELECT Estado FROM Socios WHERE ID_Socio = %s", (id_socio,))
     socio = cursor.fetchone()
     
-    # Verificar el estado del libro
+    # Estado del libro
     cursor.execute("SELECT Estado FROM Libros WHERE ID_Libro = %s", (id_libro,))
     libro = cursor.fetchone()
     
+    # Disponibilidad libro
+    cursor.execute("SELECT Disponibilidad FROM Libros WHERE ID_Libro = %s", (id_libro,))
+    disponibilidad = cursor.fetchone()
+
     cursor.close()
     conexion.close()
     
-    # Validar estados
-    if socio and socio[0] == 1 and libro and libro[0] == 1:
+    # Estados
+    if socio and socio[0] == 1 and libro and libro[0] == 1 and disponibilidad[0]== 1:
         return True
     return False
 
-# Menú de la aplicación
+def actualizar_prestamo(id_libro, id_socio, id_prestamo):
+    conexion = conectar()
+    cursor = conexion.cursor()
+
+    Fecha_Devolucion_Real = datetime.now().date()
+    
+    cursor.execute("SELECT Fecha_Devolucion_Estimada FROM Prestamos WHERE ID_Prestamo = %s" , (id_prestamo,))
+    Fecha_Devolucion_Estimada = cursor.fetchone()
+
+    sql2 = "UPDATE Libros SET Disponibilidad = 1 WHERE ID_Libro = %s"
+    cursor.execute(sql2, (id_libro,))
+    
+    sql_Fecha="UPDATE Prestamos SET Fecha_Devolucion_Real = %s WHERE ID_Prestamo=%s" 
+    cursor.execute(sql_Fecha, (Fecha_Devolucion_Real,id_prestamo))
+
+    if (Fecha_Devolucion_Real > Fecha_Devolucion_Estimada[0]):
+        sql_Estado= "UPDATE Socios SET Estado = 0 WHERE ID_Socio = %s"
+        cursor.execute(sql_Estado, (id_socio,))
+        os.system('cls')    
+        print("\n Entrega fuera de término \n")   
+    else:
+        os.system('cls')
+        print("\n Devolución en tiempo \n")   
+
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+
+# endregion
+
+# region (MENU)
+# Menú
 def menu():
     while True:
-        print("\n--- Menú de Biblioteca ---")
-        print("1. Crear Socio")
-        print("2. Actualizar Socio")
-        print("3. Borrar Socio")
-        print("4. Listar Socios")
-        print("5. Agregar Género")
-        print("6. Actualizar Género")
-        print("7. Borrar Género")
-        print("8. Listar Géneros")
-        print("9. Agregar Libro")
-        print("10. Actualizar Libro")
-        print("11. Borrar Libro")
-        print("12. Listar Libros")
-        print("13. Crear Préstamo")
-        print("14. Listar Préstamos")
-        print("15. Salir")
+        print("\n--- Menu Principal ---\n")
+        print("1. Socios")
+        print("2. Prestamos") 
+        print("3. Libros")
+        print("4. Generos")
+        print("5. Salir") 
+        opcion = input("\n Seleccione una opción:")
+        os.system('cls')
         
-        opcion = input("Seleccione una opción: ")
+#region (1. Socios)
+        if(opcion == '1'):
+            print("\n--- Menu de socios ---\n")
 
-        if opcion == '1':
-            nombre = input("Nombre: ")
-            apellido = input("Apellido: ")
-            dni = input("DNI: ")
-            telefono = input("Teléfono: ")
-            email = input("Email: ")
-            crear_socio(nombre, apellido, dni, telefono, email)
-        elif opcion == '2':
-            id_socio = int(input("ID del Socio: "))
-            nombre = input("Nuevo Nombre: ")
-            apellido = input("Nuevo Apellido: ")
-            dni = input("Nuevo DNI: ")
-            telefono = input("Nuevo Teléfono: ")
-            email = input("Nuevo Email: ")
-            actualizar_socio(id_socio, nombre, apellido, dni, telefono, email)
-        elif opcion == '3':
-            id_socio = int(input("ID del Socio: "))
-            borrar_socio(id_socio)
-        elif opcion == '4':
-            listar_socios()
-        elif opcion == '5':
-            nombre = input("Nombre del Género: ")
-            agregar_genero(nombre)
-        elif opcion == '6':
-            id_genero = int(input("ID del Género: "))
-            nombre = input("Nuevo Nombre: ")
-            actualizar_genero(id_genero, nombre)
-        elif opcion == '7':
-            id_genero = int(input("ID del Género: "))
-            borrar_genero(id_genero)
-        elif opcion == '8':
-            listar_generos()
-        elif opcion == '9':
-            nombre_libro = input("Título del Libro: ")
-            autor = input("Autor: ")
-            fecha_lanzamiento = input("Fecha de Lanzamiento (YYYY-MM-DD): ")
-            id_genero = int(input("ID del Género: "))
-            agregar_libro(nombre_libro, autor, fecha_lanzamiento, id_genero)
-        elif opcion == '10':
-            id_libro = int(input("ID del Libro: "))
-            nombre_libro = input("Nuevo Título: ")
-            autor = input("Nuevo Autor: ")
-            fecha_lanzamiento = input("Nueva Fecha de Lanzamiento (YYYY-MM-DD): ")
-            id_genero = int(input("Nuevo ID del Género: "))
-            actualizar_libro(id_libro, nombre_libro, autor, fecha_lanzamiento, id_genero)
-        elif opcion == '11':
-            id_libro = int(input("ID del Libro: "))
-            borrar_libro(id_libro)
-        elif opcion == '12':
-            listar_libros()
-        elif opcion == '13':
-            id_libro = int(input("ID del Libro: "))
-            id_socio = int(input("ID del Socio: "))
-            if puede_prestar(id_socio, id_libro):
-                crear_prestamo(id_libro, id_socio)
-            else:
-                print("No se puede prestar el libro.")
-        elif opcion == '14':
-            listar_prestamos()
-        elif opcion == '15':
+            print("1. Crear Socio")
+            print("2. Actualizar Socio")
+            print("3. Borrar Socio")
+            print("4. Listar Socios")
+            print("5. Volver")
+
+            opcion2 = input("\nSeleccione una opción: ")
+
+            if opcion2 == '1':
+                nombre = input("Nombre: ")
+                apellido = input("Apellido: ")
+                dni = input("DNI: ")
+                telefono = input("Teléfono: ")
+                email = input("Email: ")
+                
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    crear_socio(nombre, apellido, dni, telefono, email)
+                    os.system('cls')
+                    print(" \n Usuario creado con éxito  \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Usuario NO creado \n ")
+                    menu()
+
+            if opcion2 == '2':
+                id_socio = int(input("ID del Socio: "))
+                nombre = input("Nuevo Nombre: ")
+                apellido = input("Nuevo Apellido: ")
+                dni = input("Nuevo DNI: ")
+                telefono = input("Nuevo Teléfono: ")
+                email = input("Nuevo Email: ")
+                
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    actualizar_socio(id_socio, nombre, apellido, dni, telefono, email) 
+                    os.system('cls')
+                    print(" \n Usuario actualizado con éxito \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Usuario NO actualizado \n ")
+                    menu() 
+
+            if opcion2 == '3':
+                id_socio = int(input("ID del Socio: "))
+
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    borrar_socio(id_socio)
+                    os.system('cls')
+                    print(" \n Usuario borrado con éxito  \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Usuario NO borrado  \n ")
+                    menu()
+
+            if opcion2 == '4':
+                listar_socios()
+                opcion3 = input("\n presionar enter para volver")
+                os.system('cls')
+                menu()
+
+            if(opcion2 == '5'):
+                os.system('cls')
+                menu()
+#endregion 
+
+#region (2. Prestamos)
+        if(opcion == '2'):
+            print("\n--- Menu de Préstamos ---\n")
+
+            print("1. Crear Prestamo")
+            print("2. Actualizar Préstamo")
+            print("3. Listar Préstamos")
+            print("4. Volver")
+
+            opcion2 = input("\n Seleccione una opción: ")
+
+            if opcion2 == '1':
+                id_libro = int(input("ID del Libro: "))
+                id_socio = int(input("ID del Socio: "))
+
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    if puede_prestar(id_socio, id_libro):
+                        crear_prestamo(id_libro, id_socio)
+                        os.system('cls')
+                        print("\n Prestamo asignado correctamente. \n")
+
+                    else:
+                        os.system('cls')
+                        print("No se puede prestar el libro.")
+                else:
+                    os.system('cls')
+                    print("\n Prestamo NO asignado. \n")
+                    menu()                
+
+            if opcion2 == '2':
+                id_libro = int(input("ID del Libro: "))
+                id_socio= int(input("ID del Socio: "))
+                id_prestamo = int(input("ID del Préstamo: "))
+
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    actualizar_prestamo(id_libro, id_socio, id_prestamo)
+                    print(" \n Libro devuelto  \n ")
+                    menu()
+                else:
+                    os.system('cls')
+                    print(" \n Libro NO devuelto \n ")
+                    menu()
+
+            if opcion2 == '3':
+                listar_prestamos()
+                opcion3 = input("\n presionar enter para volver ")
+                os.system('cls')
+                menu()
+
+            if(opcion2 == '4'):
+                os.system('cls')
+                menu()
+#endregion
+
+#region (3. Libros)
+        if(opcion == '3'):
+            print("\n--- Menu de Libros ---\n")
+
+            print("1. Agregar Libro")
+            print("2. Actualizar Libro")
+            print("3. Borrar Libro")
+            print("4. Listar Libros")
+            print("5. Volver") 
+
+            opcion2 = input("\n Seleccione una opción: ")
+            
+            if opcion2 == '1':
+                nombre_libro = input("Título del Libro: ")
+                autor = input("Autor: ")
+                fecha_lanzamiento = input("Fecha de Lanzamiento (YYYY-MM-DD): ")
+                id_genero = int(input("ID del Género: "))
+
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    agregar_libro(nombre_libro, autor, fecha_lanzamiento, id_genero)
+                    os.system('cls')
+                    print(" \n Libro agregado con éxito  \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Libro NO agregado  \n ")
+                    menu()
+                
+
+            if opcion2 == '2':
+                id_libro = int(input("ID del Libro: "))
+                nombre_libro = input("Nuevo Título: ")
+                autor = input("Nuevo Autor: ")
+                fecha_lanzamiento = input("Nueva Fecha de Lanzamiento (YYYY-MM-DD): ")
+                id_genero = int(input("Nuevo ID del Género: "))
+
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    actualizar_libro(id_libro, nombre_libro, autor, fecha_lanzamiento, id_genero)
+                    os.system('cls')
+                    print("\n Libro actualizado correctamente \n ")
+                else:
+                    os.system('cls')
+                    print("\n Libro NO actualizado \n ")
+                    menu() 
+
+            if opcion2 == '3':
+                id_libro = int(input("ID del Libro: "))
+
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    borrar_libro(id_libro)
+                    os.system('cls')
+                    print(" \n Libro borrado con éxito  \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Libro NO borrado \n ")
+                    menu()
+            
+            if opcion2 == '4':
+                listar_libros()
+                opcion3 = input("\n presionar enter para volver \n ")
+                os.system('cls')
+                menu()
+            
+            if(opcion2 == '5'):
+                os.system('cls')
+                menu()
+
+#endregion
+
+#region (4. Géneros)
+                
+        if(opcion == '4'):
+            print("\n--- Menu de Generos ---\n")
+
+            print("1. Agregar Género")
+            print("2. Actualizar Género")
+            print("3. Borrar Género")
+            print("4. Listar Géneros")
+            print("5. Volver")
+
+            opcion2 = input("\n Seleccione una opción: ")
+
+            if opcion2 == '1':
+                nombre = input("Nombre del Género: ")
+                
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    agregar_genero(nombre)
+                    os.system('cls')
+                    print(" \n Genero agregado con éxito  \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Genero NO agregado  \n ")
+                    menu()
+
+            if opcion2 == '2':
+                id_genero = int(input("ID del Género: "))
+                nombre = input("Nuevo Nombre: ")
+
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    actualizar_genero(id_genero, nombre)
+                    os.system('cls')
+                    print(" \n Genero actualizado con éxito  \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Genero NO actualizado  \n ")
+                    menu()
+                
+
+            if opcion2 == '3':
+                id_genero = int(input("ID del Género: "))
+                print(" \n Está seguro de realizar los cambios  \n ")
+                opcion3 = input("\n Si (1) / No (0) ")
+                if(opcion3 == '1'):
+                    borrar_genero(id_genero)
+                    os.system('cls')
+                    print(" \n Genero borrado con éxito  \n ")
+                else:
+                    os.system('cls')
+                    print(" \n Genero NO borrado  \n ")
+                    menu()
+                
+            if opcion2 == '4':
+                listar_generos()
+                opcion3 = input("\n presionar enter para volver")
+                os.system('cls')
+                menu()
+            
+            if(opcion2 == '5'):
+                os.system('cls')
+                menu()
+                
+#endregion
+        
+        
+        if(opcion == '5'):
             break
-        else:
-            print("Opción no válida. Intente nuevamente.")
-
+        
+            
 if __name__ == "__main__":
     menu()
+#endregion
