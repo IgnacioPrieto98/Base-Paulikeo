@@ -1,0 +1,1 @@
+DELETE FROM socios WHERE Estado = '0';

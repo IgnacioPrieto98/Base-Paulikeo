@@ -1,0 +1,1 @@
+ALTER TABLE prestamos DROP COLUMN Fecha_Devolucion;

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>RecentMatchedKeywords</key>
+    <array>
+      <string>nowait</string>
+      <string>null</string>
+      <string>varchar</string>
+      <string>id_genero</string>
+      <string>int</string>
+      <string>timestamp</string>
+      <string>if</string>
+      <string>unique</string>
+      <string>exists</string>
+      <string>create</string>
+      <string>validate</string>
+      <string>id_libro</string>
+      <string>foreign</string>
+      <string>references</string>
+      <string>id_socio</string>
+      <string>tables</string>
+      <string>generos</string>
+      <string>genero</string>
+      <string>insert</string>
+      <string>into</string>
+      <string>values</string>
+      <string>socios</string>
+      <string>estado</string>
+      <string>trailing</string>
+      <string>fecha_devolucion</string>
+      <string>drop</string>
+      <string>delete</string>
+      <string>from</string>
+      <string>where</string>
+      <string>fecha_devolucion_real</string>
+      <string>alter</string>
+      <string>table</string>
+      <string>prestamos</string>
+      <string>add</string>
+      <string>column</string>
+      <string>primary</string>
+      <string>key</string>
+      <string>libros</string>
+      <string>default</string>
+    </array>
+    <key>Favorites</key>
+    <array />
+    <key>BackupFileNamePatterns</key>
+    <array />
+    <key>RecentOpenedFavoriteGroups</key>
+    <array />
+    <key>Variables</key>
+    <array />
+    <key>WelcomeTop</key>
+    <real>320</real>
+    <key>WelcomeLeft</key>
+    <real>660</real>
+    <key>WelcomeWidth</key>
+    <real>600</real>
+    <key>WelcomeHeight</key>
+    <real>400</real>
+    <key>WelcomeState</key>
+    <integer>0</integer>
+    <key>WorkspaceTop</key>
+    <real>-2</real>
+    <key>WorkspaceLeft</key>
+    <real>918</real>
+    <key>WorkspaceWidth</key>
+    <real>900</real>
+    <key>WorkspaceHeight</key>
+    <real>600</real>
+    <key>WorkspaceState</key>
+    <integer>1</integer>
+    <key>MetricsTop</key>
+    <real>0</real>
+    <key>MetricsLeft</key>
+    <real>0</real>
+    <key>MetricsWidth</key>
+    <real>0</real>
+    <key>MetricsHeight</key>
+    <real>0</real>
+    <key>MetricsState</key>
+    <integer>0</integer>
+    <key>MetricsLeftSidebarWidth</key>
+    <integer>200</integer>
+    <key>IsMetricsHideLeftSideBar</key>
+    <integer>0</integer>
+    <key>PluginManagerTop</key>
+    <real>0</real>
+    <key>PluginManagerLeft</key>
+    <real>0</real>
+    <key>WebViewTop</key>
+    <real>0</real>
+    <key>WebViewLeft</key>
+    <real>0</real>
+    <key>WebViewWidth</key>
+    <real>0</real>
+    <key>WebViewHeight</key>
+    <real>0</real>
+    <key>WebViewState</key>
+    <integer>0</integer>
+    <key>StickyQuicklookTop</key>
+    <real>0</real>
+    <key>StickyQuicklookLeft</key>
+    <real>0</real>
+    <key>StickyQuicklookWidth</key>
+    <real>0</real>
+    <key>StickyQuicklookHeight</key>
+    <real>0</real>
+    <key>StickyQuicklookState</key>
+    <integer>0</integer>
+    <key>DataFontFamily</key>
+    <string />
+    <key>DataFontStyle</key>
+    <string />
+    <key>DataFontWeight</key>
+    <string />
+    <key>DataFontSize</key>
+    <real>12</real>
+    <key>IsCountRowExactly</key>
+    <integer>0</integer>
+    <key>MaxRowCountExactly</key>
+    <integer>0</integer>
+    <key>EditorFontFamily</key>
+    <string />
+    <key>EditorFontStyle</key>
+    <string />
+    <key>EditorFontWeight</key>
+    <string />
+    <key>EditorFontSize</key>
+    <real>12</real>
+    <key>EditorLineHeight</key>
+    <real>1</real>
+    <key>DisableAutoUppercaseKeyword</key>
+    <integer>0</integer>
+    <key>DisableRestoreRecentQueries</key>
+    <integer>0</integer>
+    <key>EnableAutoPrefixSchema</key>
+    <integer>0</integer>
+    <key>DefaultExecuteMode</key>
+    <integer>0</integer>
+    <key>FavoriteSortKey</key>
+    <integer>0</integer>
+    <key>DisableAuttoSuggestion</key>
+    <integer>0</integer>
+    <key>DisableSplitQueryResult</key>
+    <integer>0</integer>
+    <key>EnableQueryParams</key>
+    <integer>0</integer>
+    <key>EnableSearchVariableInString</key>
+    <integer>0</integer>
+    <key>QueryParamsRegex</key>
+    <integer>0</integer>
+    <key>ShowInvisibleCharacters</key>
+    <integer>0</integer>
+    <key>DisableWrapLinesToEditorWidth</key>
+    <integer>0</integer>
+    <key>LeftSidebarFontFamily</key>
+    <string />
+    <key>LeftSidebarFontStyle</key>
+    <string />
+    <key>LeftSidebarFontWeight</key>
+    <string />
+    <key>LeftSidebarFontSize</key>
+    <real>0</real>
+    <key>HideOpenContainingFolderAfterExport</key>
+    <integer>0</integer>
+    <key>DisableAutocompleteForTable</key>
+    <integer>0</integer>
+    <key>DisableAutocompleteForKeyword</key>
+    <integer>0</integer>
+    <key>DisableHighlightCurrentQuery</key>
+    <integer>0</integer>
+    <key>DoubleClickToInsertFavorite</key>
+    <integer>0</integer>
+    <key>DisableAutoSaveFavorites</key>
+    <integer>0</integer>
+    <key>ReturnOnError</key>
+    <integer>0</integer>
+    <key>ThemeName</key>
+    <string>Dark</string>
+    <key>DefaultDarkTheme</key>
+    <string>Dark</string>
+    <key>DefaultLightTheme</key>
+    <string>Light</string>
+    <key>LeftSidebarWidth</key>
+    <integer>351</integer>
+    <key>RightSidebarWidth</key>
+    <integer>73</integer>
+    <key>IsHideLeftSideBar</key>
+    <integer>0</integer>
+    <key>IsHideRightSideBar</key>
+    <integer>0</integer>
+    <key>IsHideBottomBar</key>
+    <integer>1</integer>
+    <key>IsEnableOpenAIChat</key>
+    <integer>0</integer>
+    <key>ConsoleBottomBarHeight</key>
+    <integer>0</integer>
+    <key>QueryEditorPanePosition</key>
+    <real>0.580079346538792</real>
+    <key>DefaultAvancedFilterColumn</key>
+    <string />
+    <key>DefaultAvancedFilterOperator</key>
+    <string />
+    <key>DefaultAvancedFilterState</key>
+    <string />
+    <key>ExportTableCSVNotConvertNullToEmpty</key>
+    <integer>0</integer>
+    <key>ExportTableCSVReplaceLineBreakWithSpace</key>
+    <integer>0</integer>
+    <key>ExportTableCSVNotIncludeFieldName</key>
+    <integer>0</integer>
+    <key>ExportTableCSVSwap</key>
+    <string />
+    <key>ExportTableCSVTerminate</key>
+    <string>,</string>
+    <key>ExportTableCSVDecimal</key>
+    <string>.</string>
+    <key>ExportTableCSVLineBreak</key>
+    <integer>0</integer>
+    <key>ExportTableSQLDropIfExist</key>
+    <integer>0</integer>
+    <key>ExportTableSQLNotIncludeStructure</key>
+    <integer>0</integer>
+    <key>ExportTableSQLNotIncludeContent</key>
+    <integer>0</integer>
+    <key>ExportTableSQLCompressGzip</key>
+    <integer>0</integer>
+    <key>SharedConnectionPath</key>
+    <string />
+    <key>SharedQueryPath</key>
+    <string />
+    <key>SharedTempPath</key>
+    <string />
+    <key>Language</key>
+    <string />
+    <key>SearchMatchingStategy</key>
+    <string>fuzzy</string>
+    <key>ForeignKeyPaneHeight</key>
+    <real>0</real>
+    <key>JsonPanedWidth</key>
+    <real>0</real>
+    <key>Themes</key>
+    <dict />
+    <key>Tags</key>
+    <dict>
+      <key>local</key>
+      <string />
+      <key>testing</key>
+      <string />
+      <key>staging</key>
+      <string />
+      <key>development</key>
+      <string />
+      <key>production</key>
+      <string />
+    </dict>
+    <key>DefaultSafeMode</key>
+    <integer>0</integer>
+    <key>DefaultAdvancedSafeMode</key>
+    <integer>0</integer>
+    <key>TabbedModeEnabled</key>
+    <integer>0</integer>
+    <key>IsDisableLicenseExpirationPopup</key>
+    <integer>0</integer>
+    <key>IsEnableRowNumbersInItemViews</key>
+    <integer>0</integer>
+    <key>IsDisableRowNumbersInQueryResults</key>
+    <integer>0</integer>
+    <key>IsEnableSSHDebugLog</key>
+    <integer>0</integer>
+    <key>DefaultAvancedFilterColumnSort</key>
+    <integer>0</integer>
+  </dict>
+</plist>

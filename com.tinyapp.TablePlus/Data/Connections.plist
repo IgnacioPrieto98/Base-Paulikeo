@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <array>
+    <dict>
+      <key>ID</key>
+      <string>FDA875B3-168A-42A6-B4F6-9DAD84CB26FD</string>
+      <key>GroupID</key>
+      <string />
+      <key>ConnectionName</key>
+      <string>Gestor</string>
+      <key>Enviroment</key>
+      <string>local</string>
+      <key>Driver</key>
+      <string>MySQL</string>
+      <key>DriverVersion</key>
+      <integer>0</integer>
+      <key>DatabaseHost</key>
+      <string>localhost</string>
+      <key>DatabasePort</key>
+      <string>3306</string>
+      <key>DatabaseUser</key>
+      <string>root</string>
+      <key>DatabaseName</key>
+      <string>Gestor</string>
+      <key>tLSMode</key>
+      <integer>0</integer>
+      <key>TlsKeyPaths</key>
+      <array />
+      <key>isOverSSH</key>
+      <integer>0</integer>
+      <key>ServerAddress</key>
+      <string />
+      <key>ServerPort</key>
+      <string />
+      <key>ServerUser</key>
+      <string />
+      <key>LimitRowsReturned</key>
+      <integer>0</integer>
+      <key>LimitQueryRowsReturned</key>
+      <integer>0</integer>
+      <key>isUsePrivateKey</key>
+      <integer>0</integer>
+      <key>ServerPrivateKeyName</key>
+      <string />
+      <key>DatabaseUserRole</key>
+      <string />
+      <key>Authenticator</key>
+      <string />
+      <key>DatabaseWarehouse</key>
+      <string />
+      <key>RecentlySchema</key>
+      <array>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>sys.sys</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+        <string>Gestor.Gestor</string>
+      </array>
+      <key>HideFunctionSection</key>
+      <integer>0</integer>
+      <key>ShowSequenceSection</key>
+      <integer>0</integer>
+      <key>PreloadAllSchemaItems</key>
+      <integer>0</integer>
+      <key>UseSock</key>
+      <integer>0</integer>
+      <key>DatabaseEncoding</key>
+      <string />
+      <key>ServerNameIndication</key>
+      <string />
+      <key>Favorites</key>
+      <dict />
+      <key>RecentUsedBackupGzip</key>
+      <integer>0</integer>
+      <key>RecentUsedBackupDriverName</key>
+      <string />
+      <key>RecentUsedBackupOptions</key>
+      <array />
+      <key>RecentUsedRestoreOptions</key>
+      <array />
+      <key>statusColor</key>
+      <string />
+      <key>StartupCommands</key>
+      <string />
+      <key>StartupBashScript</key>
+      <string />
+      <key>ShowSystemSchemas</key>
+      <integer>0</integer>
+      <key>OtherOptions</key>
+      <array />
+      <key>ItemGroups</key>
+      <array />
+      <key>SectionStates</key>
+      <dict>
+        <key>Gestor.Functions</key>
+        <string>collapsed</string>
+        <key>Gestor.Tables</key>
+        <string>collapsed</string>
+        <key>sys.Tables</key>
+        <string>expanded</string>
+      </dict>
+      <key>DatabaseType</key>
+      <string />
+      <key>DatabasePasswordMode</key>
+      <integer>0</integer>
+      <key>ServerPasswordMode</key>
+      <integer>0</integer>
+    </dict>
+  </array>
+</plist>

@@ -1,0 +1,1 @@
+DELETE FROM prestamos WHERE Fecha_Devolucion_Real = NULL;

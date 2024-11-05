@@ -1,0 +1,1 @@
+DROP TABLE if not EXISTS socios;
