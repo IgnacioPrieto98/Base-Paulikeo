@@ -1,1 +1,0 @@
-ALTER TABLE libros ADD COLUMN Disponibilidad tinyint DEFAULT'1';

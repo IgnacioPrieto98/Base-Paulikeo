@@ -1,1 +1,0 @@
-ALTER TABLE prestamos ADD COLUMN ID_Prestamo int NOT NULL AUTO_INCREMENT;DELETE FROM prestamos WHERE Fecha_Devolucion_Real = NULL;

@@ -1,1 +1,0 @@
-ALTER TABLE libros ADD COLUMN Disponibilidad tinyint DEFAULT '1' ;ALTER TABLE prestamos ADD COLUMN ID_Prestamo NOT NULL AUTO_INCREMENT;
